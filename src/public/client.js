@@ -22,7 +22,7 @@ const render = async (root, state) => {
 const App = (state) => {
     let { rovers } = state
     return `
-        <header>${headerContent()}</header>
+        <header>${header(store.rover)}</header>
         <main>
             <div class="rivers_btns_container"> ${RoversButtons(rovers)} </div>
         </main>
@@ -42,9 +42,6 @@ window.addEventListener('load', () => {
 // ------------------------------------------------------  COMPONENTS
 
 // Pure function that renders conditional information
-const headerContent = () => {
-    return `Welcome to Mars Dashboeard`
-};
 
 const RoversButtons = (rovers) => {
     let roversContent = ``
@@ -57,6 +54,7 @@ const RoversButtons = (rovers) => {
     })
     return roversContent
 }
+  
 
 const RoverInfo = (rover) => {
     if (Object.keys(rover).length === 0) {
@@ -99,6 +97,22 @@ const RoversImages = (photos) => {
     
     return gallery
 }
+
+
+// HOF
+const createHeaderContent = (rover) => {
+    return `Welcome to Mars Dashboeard : (${rover.name})`
+}
+
+const header = (rover) =>  {
+    if (Object.keys(rover).length === 0) {
+        return `Welcome to Mars Dashboeard`
+    }
+    return createHeaderContent(rover)
+}
+
+
+
 // ------------------------------------------------------  API CALLS
 const getRover = (roverName) => {
     fetch(`http://localhost:3000/rover/${roverName}`)
